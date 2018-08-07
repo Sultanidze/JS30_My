@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color:black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:black;
+  }
+
+  h1 {
+/*    text-shadow: 10px 10px 0 rgba(0,0,0,1);*/
+    font-size: 100px;
+/*    outline: 1px solid red;*/
+  }
+  </style>
+
+<script>
+    const hero = document.querySelector(".hero");
+    const text = hero.querySelector("h1");
+    let width = hero.offsetWidth;
+    let height = hero.offsetHeight;
+    
+    function shadow(e) {
+//        let {layerY: y, layerX: x} = e;
+            let {offsetY: y, offsetX: x} = e;
+//        if (this === hero) {
+//        } else
+//        console.log(x,y);
+        
+        if (this !== e.target){
+            x += e.target.offsetLeft;
+            y += e.target.offsetTop;
+        }
+        const maxDelta = 200;
+        
+        const deltaX = Math.round((x/width - 0.5)*maxDelta);
+        const deltaY = Math.round((y/height - 0.5)*maxDelta);
+        
+//        console.log(deltaX, deltaY);
+        text.style.textShadow = `
+            ${deltaX}px ${deltaY}px 0 rgba(255, 0, 255, 0.8),
+            ${-deltaY}px ${deltaX}px 0 rgba(0, 255, 255, 0.8),
+            ${deltaY}px ${-deltaX}px 0 rgba(255, 128, 128, 0.8),
+            ${-deltaX}px ${-deltaY}px 0 rgba(255, 255, 0, 0.8)
+        `;
+    }
+    
+    hero.addEventListener("mousemove", shadow);
+    
+    function calcDimensions(){
+        width = hero.offsetWidth;
+        height = hero.offsetHeight;
+        
+        console.log(width, height);
+    }
+    
+    window.addEventListener("resize", calcDimensions)
+</script>
+</body>
+</html>
